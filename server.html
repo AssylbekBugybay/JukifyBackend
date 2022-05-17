@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module server</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>server</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cprogramming%5Csoftwareproject%5Cjukifybackend%5Cserver.py">c:\programming\softwareproject\jukifybackend\server.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="classes.html">classes</a><br>
+<a href="database.html">database</a><br>
+</td><td width="25%" valign=top><a href="json.html">json</a><br>
+<a href="random.html">random</a><br>
+</td><td width="25%" valign=top><a href="spotipy.html">spotipy</a><br>
+<a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-addSong"><strong>addSong</strong></a>()</dt><dd><tt>Required&nbsp;body&nbsp;in&nbsp;JSON<br>
+{<br>
+"partyId":&nbsp;"21324",<br>
+'spotifyId':&nbsp;"3781",<br>
+'name':&nbsp;"hey&nbsp;you",<br>
+'album'&nbsp;:&nbsp;'albumname',&nbsp;&nbsp;&nbsp;&nbsp;<br>
+'artist'&nbsp;:&nbsp;'pink&nbsp;floyd',<br>
+'imgUrl'&nbsp;:'www.imgur.com'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+}<br>
+Method&nbsp;<a href="#-addSong">addSong</a>()&nbsp;allows&nbsp;to&nbsp;add&nbsp;Song&nbsp;into&nbsp;the&nbsp;queue:<br>
+1)&nbsp;Receives&nbsp;POST&nbsp;request&nbsp;and&nbsp;gets&nbsp;json&nbsp;data:&nbsp;songJson&nbsp;and&nbsp;partyId<br>
+2)&nbsp;Check&nbsp;if&nbsp;party&nbsp;exists<br>
+3)&nbsp;Add&nbsp;the&nbsp;song&nbsp;to&nbsp;the&nbsp;queue&nbsp;list&nbsp;and&nbsp;to&nbsp;users&nbsp;queue<br>
+3)&nbsp;If&nbsp;checks&nbsp;are&nbsp;failed&nbsp;or&nbsp;passed&nbsp;corresponding&nbsp;messages&nbsp;are&nbsp;sent</tt></dd></dl>
+ <dl><dt><a name="-closeParty"><strong>closeParty</strong></a>()</dt><dd><tt>Required&nbsp;body&nbsp;in&nbsp;JSON<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"userId":&nbsp;"12e11",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"partyId":&nbsp;"3781"<br>
+}<br>
+Method&nbsp;deletes&nbsp;the&nbsp;party:<br>
+1)&nbsp;Receives&nbsp;POST&nbsp;request&nbsp;and&nbsp;gets&nbsp;json&nbsp;data:&nbsp;partyId&nbsp;and&nbsp;masterId<br>
+2)&nbsp;Server&nbsp;has&nbsp;to&nbsp;make&nbsp;sure&nbsp;if&nbsp;such&nbsp;a&nbsp;Party&nbsp;exists.&nbsp;Also&nbsp;server&nbsp;makes&nbsp;sure&nbsp;that&nbsp;the&nbsp;request&nbsp;is&nbsp;coming&nbsp;from&nbsp;right&nbsp;Party&nbsp;Master<br>
+3)&nbsp;Both&nbsp;checks&nbsp;are&nbsp;done&nbsp;via&nbsp;comparing&nbsp;the&nbsp;ids&nbsp;inside&nbsp;the&nbsp;existing&nbsp;array&nbsp;of&nbsp;Party&nbsp;instances<br>
+4)&nbsp;If&nbsp;both&nbsp;checks&nbsp;are&nbsp;done&nbsp;succussfully&nbsp;then&nbsp;corresponding&nbsp;responce&nbsp;is&nbsp;generated&nbsp;and&nbsp;Closing&nbsp;Date&nbsp;in&nbsp;Party&nbsp;table&nbsp;in&nbsp;databases&nbsp;is&nbsp;updated<br>
+5)&nbsp;If&nbsp;checks&nbsp;are&nbsp;failed&nbsp;or&nbsp;passed&nbsp;corresponding&nbsp;messages&nbsp;are&nbsp;sent</tt></dd></dl>
+ <dl><dt><a name="-createParty"><strong>createParty</strong></a>()</dt><dd><tt>Needed&nbsp;Json&nbsp;data&nbsp;for&nbsp;this&nbsp;request:<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"userId":&nbsp;"1",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"authToken":&nbsp;"ASLDKfmasldkmfaskme2131re3dq3"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"playlistId"&nbsp;:&nbsp;"37i9dQZF1DXbKGrOUA30KN",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"partyName":&nbsp;"prterltmelr"<br>
+}<br>
+return&nbsp;Json&nbsp;data&nbsp;for&nbsp;this&nbsp;request:<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;response:&nbsp;"success"&nbsp;or&nbsp;"failure"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;partyId:&nbsp;id&nbsp;of&nbsp;the&nbsp;party&nbsp;instance&nbsp;newParty&nbsp;created<br>
+&nbsp;&nbsp;&nbsp;&nbsp;requestId:&nbsp;0(specify&nbsp;later&nbsp;why&nbsp;it&nbsp;has&nbsp;to&nbsp;be&nbsp;returned)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;queueList:&nbsp;json&nbsp;array&nbsp;produced&nbsp;from&nbsp;linked&nbsp;list&nbsp;of&nbsp;songs&nbsp;list&nbsp;of&nbsp;party&nbsp;master<br>
+&nbsp;<br>
+}<br>
+Method&nbsp;is&nbsp;creates&nbsp;party&nbsp;instance&nbsp;and&nbsp;stores&nbsp;in&nbsp;the&nbsp;Databases:<br>
+1)&nbsp;Receives&nbsp;POST&nbsp;request&nbsp;and&nbsp;gets&nbsp;json&nbsp;data:&nbsp;masterId,&nbsp;authKey,&nbsp;playlistId&nbsp;and&nbsp;partyName&nbsp;<br>
+2)&nbsp;Then&nbsp;the&nbsp;correctness&nbsp;of&nbsp;the&nbsp;token&nbsp;is&nbsp;checked,&nbsp;if&nbsp;token&nbsp;is&nbsp;not&nbsp;correct&nbsp;failure&nbsp;json&nbsp;response&nbsp;is&nbsp;returned<br>
+3)&nbsp;Available&nbsp;online&nbsp;spotify&nbsp;devices&nbsp;are&nbsp;checked,&nbsp;smartphone&nbsp;is&nbsp;selected&nbsp;if&nbsp;there&nbsp;are&nbsp;multiple&nbsp;devices<br>
+4)&nbsp;After&nbsp;that&nbsp;the&nbsp;5&nbsp;digit&nbsp;PartyID&nbsp;is&nbsp;generated,&nbsp;method&nbsp;also&nbsp;checks&nbsp;if&nbsp;such&nbsp;Party&nbsp;ID&nbsp;already&nbsp;exists&nbsp;in&nbsp;the&nbsp;databases<br>
+&nbsp;&nbsp;&nbsp;while&nbsp;generating&nbsp;the&nbsp;Party&nbsp;instance&nbsp;newParty&nbsp;we&nbsp;also&nbsp;provide&nbsp;temporary&nbsp;linked&nbsp;list&nbsp;to&nbsp;store&nbsp;the&nbsp;music&nbsp;queue<br>
+5)&nbsp;As&nbsp;the&nbsp;instance&nbsp;is&nbsp;generated&nbsp;list&nbsp;of&nbsp;Party&nbsp;instances&nbsp;is&nbsp;made&nbsp;and&nbsp;after&nbsp;that&nbsp;instance&nbsp;is&nbsp;saved&nbsp;in&nbsp;databases&nbsp;(partyId&nbsp;and&nbsp;mastedId&nbsp;is&nbsp;stored)<br>
+6)&nbsp;First&nbsp;song&nbsp;from&nbsp;the&nbsp;playlist&nbsp;is&nbsp;played<br>
+7)&nbsp;The&nbsp;list&nbsp;of&nbsp;first&nbsp;100&nbsp;songs&nbsp;from&nbsp;playlist&nbsp;of&nbsp;party&nbsp;master&nbsp;is&nbsp;fetched,&nbsp;to&nbsp;fetch&nbsp;the&nbsp;country&nbsp;code&nbsp;"DE"&nbsp;is&nbsp;used,&nbsp;<br>
+&nbsp;&nbsp;&nbsp;additionally&nbsp;"trach"&nbsp;and&nbsp;"episode"&nbsp;is&nbsp;stored<br>
+8)&nbsp;From&nbsp;the&nbsp;fetched&nbsp;method&nbsp;the&nbsp;enumerated&nbsp;object&nbsp;is&nbsp;made&nbsp;to&nbsp;make&nbsp;it&nbsp;iterable<br>
+9)&nbsp;While&nbsp;iterating&nbsp;the&nbsp;variables&nbsp;are&nbsp;stored&nbsp;and&nbsp;song&nbsp;class&nbsp;instance&nbsp;is&nbsp;made<br>
+10)&nbsp;Each&nbsp;song&nbsp;is&nbsp;added&nbsp;to&nbsp;the&nbsp;newParty&nbsp;linked&nbsp;list</tt></dd></dl>
+ <dl><dt><a name="-frontendTest"><strong>frontendTest</strong></a>()</dt><dd><tt>Required&nbsp;body&nbsp;in&nbsp;JSON<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"payload"&nbsp;:"payload"<br>
+}<br>
+Method&nbsp;<a href="#-frontendTest">frontendTest</a>()&nbsp;allows&nbsp;to&nbsp;Frontend&nbsp;team&nbsp;to&nbsp;perform&nbsp;Unit&nbsp;Test&nbsp;for&nbsp;HTTP&nbsp;Client<br>
+1)&nbsp;Receives&nbsp;POST&nbsp;request&nbsp;and&nbsp;gets&nbsp;json&nbsp;data:&nbsp;testPayload<br>
+2)&nbsp;Return&nbsp;testPayload&nbsp;if&nbsp;not&nbsp;empty<br>
+3)&nbsp;If&nbsp;empty,&nbsp;return&nbsp;NOK</tt></dd></dl>
+ <dl><dt><a name="-getPartyHistory"><strong>getPartyHistory</strong></a>()</dt><dd><tt>Required&nbsp;body&nbsp;in&nbsp;JSON<br>
+{&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"partyId":&nbsp;3781<br>
+}<br>
+Method&nbsp;allows&nbsp;to&nbsp;fetch&nbsp;the&nbsp;party&nbsp;history:<br>
+1)&nbsp;Receives&nbsp;POST&nbsp;request&nbsp;and&nbsp;gets&nbsp;json&nbsp;data:&nbsp;partyId<br>
+2)&nbsp;isPartyClosed()&nbsp;method&nbsp;is&nbsp;to&nbsp;see&nbsp;if&nbsp;it&nbsp;is&nbsp;over,&nbsp;we&nbsp;check&nbsp;if&nbsp;there&nbsp;is&nbsp;an&nbsp;existing&nbsp;"closing&nbsp;date&nbsp;entry"&nbsp;in&nbsp;the&nbsp;database<br>
+4)&nbsp;Array&nbsp;of&nbsp;Json&nbsp;strings&nbsp;of&nbsp;Songs&nbsp;is&nbsp;returned<br>
+5)&nbsp;If&nbsp;checks&nbsp;are&nbsp;failed&nbsp;or&nbsp;passed&nbsp;corresponding&nbsp;messages&nbsp;are&nbsp;sent</tt></dd></dl>
+ <dl><dt><a name="-getQueueList"><strong>getQueueList</strong></a>()</dt><dd><tt>Required&nbsp;body&nbsp;in&nbsp;JSON<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"partyId"&nbsp;:"1234"<br>
+}<br>
+Method&nbsp;<a href="#-getQueueList">getQueueList</a>()&nbsp;allows&nbsp;to&nbsp;Party&nbsp;Member&nbsp;to&nbsp;get&nbsp;current&nbsp;playing&nbsp;queue<br>
+1)&nbsp;Receives&nbsp;POST&nbsp;request&nbsp;and&nbsp;gets&nbsp;json&nbsp;data:&nbsp;partyId<br>
+2)&nbsp;Check&nbsp;if&nbsp;party&nbsp;exists<br>
+3)&nbsp;Check&nbsp;if&nbsp;recently&nbsp;checked<br>
+4)&nbsp;If&nbsp;yes,&nbsp;return&nbsp;recent&nbsp;check&nbsp;with&nbsp;sync<br>
+4)&nbsp;If&nbsp;not,&nbsp;get&nbsp;current&nbsp;player&nbsp;status&nbsp;and&nbsp;return</tt></dd></dl>
+ <dl><dt><a name="-join"><strong>join</strong></a>()</dt><dd><tt>Required&nbsp;body&nbsp;in&nbsp;JSON<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"userId":&nbsp;"1",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"partyId":&nbsp;"3781"<br>
+}<br>
+Method&nbsp;joins&nbsp;the&nbsp;party:<br>
+1)&nbsp;Receives&nbsp;POST&nbsp;request&nbsp;and&nbsp;gets&nbsp;json&nbsp;data:&nbsp;userId&nbsp;and&nbsp;partyId<br>
+2)&nbsp;Check&nbsp;if&nbsp;party&nbsp;exists<br>
+3)&nbsp;Get&nbsp;users&nbsp;currently&nbsp;playing&nbsp;song,&nbsp;song&nbsp;should&nbsp;be&nbsp;of&nbsp;"DE"&nbsp;country&nbsp;code.&nbsp;Songs&nbsp;id,&nbsp;name,&nbsp;album&nbsp;and&nbsp;artist,&nbsp;and&nbsp;if&nbsp;image&nbsp;url&nbsp;is&nbsp;available&nbsp;is&nbsp;also&nbsp;sent<br>
+5)&nbsp;If&nbsp;checks&nbsp;are&nbsp;failed&nbsp;or&nbsp;passed&nbsp;corresponding&nbsp;messages&nbsp;are&nbsp;sent</tt></dd></dl>
+ <dl><dt><a name="-leave"><strong>leave</strong></a>()</dt><dd><tt>Required&nbsp;body&nbsp;in&nbsp;JSON<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"userId":&nbsp;"1",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"partyId":&nbsp;"3781"<br>
+}<br>
+Method&nbsp;allows&nbsp;for&nbsp;attendants&nbsp;to&nbsp;leave&nbsp;the&nbsp;party:<br>
+1)&nbsp;Receives&nbsp;POST&nbsp;request&nbsp;and&nbsp;gets&nbsp;json&nbsp;data:&nbsp;userId&nbsp;and&nbsp;partyId<br>
+2)&nbsp;Check&nbsp;if&nbsp;party&nbsp;exists<br>
+3)&nbsp;Check&nbsp;if&nbsp;requesting&nbsp;partyId&nbsp;is&nbsp;party&nbsp;master.&nbsp;It&nbsp;returns&nbsp;false&nbsp;if&nbsp;it&nbsp;is&nbsp;Party&nbsp;Master.&nbsp;Because&nbsp;party&nbsp;master&nbsp;cant&nbsp;leave,&nbsp;he&nbsp;can&nbsp;only&nbsp;close&nbsp;the&nbsp;party.<br>
+5)&nbsp;If&nbsp;checks&nbsp;are&nbsp;failed&nbsp;or&nbsp;passed&nbsp;corresponding&nbsp;messages&nbsp;are&nbsp;sent</tt></dd></dl>
+ <dl><dt><a name="-playSong"><strong>playSong</strong></a>()</dt><dd><tt>Required&nbsp;body&nbsp;in&nbsp;JSON<br>
+{&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"partyId":&nbsp;"3781"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"songId"&nbsp;:&nbsp;"232mk3v32K2r3R"<br>
+}<br>
+Method&nbsp;allows&nbsp;to&nbsp;play&nbsp;the&nbsp;song:<br>
+1)&nbsp;Receives&nbsp;POST&nbsp;request&nbsp;and&nbsp;gets&nbsp;json&nbsp;data:&nbsp;songId&nbsp;and&nbsp;partyId<br>
+2)&nbsp;Check&nbsp;if&nbsp;party&nbsp;exists<br>
+3)&nbsp;Use&nbsp;start_playback()&nbsp;method&nbsp;if&nbsp;SongId&nbsp;is&nbsp;right<br>
+4)&nbsp;Song&nbsp;id,&nbsp;name,&nbsp;album&nbsp;and&nbsp;artist,&nbsp;and&nbsp;if&nbsp;image&nbsp;url&nbsp;is&nbsp;available&nbsp;is&nbsp;also&nbsp;saved&nbsp;in&nbsp;the&nbsp;databases<br>
+5)&nbsp;If&nbsp;checks&nbsp;are&nbsp;failed&nbsp;or&nbsp;passed&nbsp;corresponding&nbsp;messages&nbsp;are&nbsp;sent</tt></dd></dl>
+ <dl><dt><a name="-playlists"><strong>playlists</strong></a>()</dt><dd><tt>Required&nbsp;body&nbsp;in&nbsp;JSON:<br>
+{&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"authToken":&nbsp;"3781kjnfelkrjnflk34jnj3"<br>
+}<br>
+Method&nbsp;allows&nbsp;to&nbsp;get&nbsp;Spotify&nbsp;playlist:<br>
+1)&nbsp;Receives&nbsp;POST&nbsp;request&nbsp;and&nbsp;gets&nbsp;json&nbsp;data:&nbsp;authKey<br>
+2)&nbsp;Connect&nbsp;to&nbsp;spotify&nbsp;using&nbsp;authKey<br>
+3)&nbsp;Method&nbsp;current_user_playlists()&nbsp;gets&nbsp;current&nbsp;users&nbsp;playlist<br>
+4)&nbsp;If&nbsp;the&nbsp;users&nbsp;playlist&nbsp;has&nbsp;less&nbsp;than&nbsp;5&nbsp;or&nbsp;just&nbsp;5&nbsp;songs,&nbsp;then&nbsp;featured_playlists()&nbsp;method&nbsp;gets&nbsp;30&nbsp;songs&nbsp;from&nbsp;Spotify&nbsp;featured&nbsp;playlist.&nbsp;playlistItems&nbsp;list&nbsp;is&nbsp;created&nbsp;for&nbsp;that.<br>
+5)&nbsp;If&nbsp;checks&nbsp;are&nbsp;failed&nbsp;or&nbsp;passed&nbsp;corresponding&nbsp;messages&nbsp;are&nbsp;sent</tt></dd></dl>
+ <dl><dt><a name="-searchSong"><strong>searchSong</strong></a>()</dt><dd><tt>Required&nbsp;body&nbsp;in&nbsp;JSON<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"partyId":&nbsp;"1234"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"searchWord":"Never&nbsp;gonna&nbsp;let&nbsp;you&nbsp;down"<br>
+}<br>
+Method&nbsp;allows&nbsp;to&nbsp;search&nbsp;song:<br>
+1)&nbsp;Receives&nbsp;POST&nbsp;request&nbsp;and&nbsp;gets&nbsp;json&nbsp;data:&nbsp;searchWord&nbsp;and&nbsp;partyId<br>
+2)&nbsp;Check&nbsp;if&nbsp;party&nbsp;exists<br>
+3)&nbsp;Using&nbsp;search()&nbsp;method&nbsp;we&nbsp;get&nbsp;5&nbsp;songs&nbsp;with&nbsp;"DE"&nbsp;country&nbsp;code<br>
+4)&nbsp;Song&nbsp;id,&nbsp;name,&nbsp;album&nbsp;and&nbsp;artist,&nbsp;and&nbsp;if&nbsp;image&nbsp;url&nbsp;is&nbsp;available&nbsp;is&nbsp;returned<br>
+5)&nbsp;If&nbsp;checks&nbsp;are&nbsp;failed&nbsp;or&nbsp;passed&nbsp;corresponding&nbsp;messages&nbsp;are&nbsp;sent</tt></dd></dl>
+ <dl><dt><a name="-setNextSong"><strong>setNextSong</strong></a>()</dt><dd><tt>Required&nbsp;body&nbsp;in&nbsp;JSON<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"partyId":&nbsp;"21324",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"songId":&nbsp;"3781"<br>
+}<br>
+Method&nbsp;<a href="#-setNextSong">setNextSong</a>()&nbsp;allows&nbsp;to&nbsp;Party&nbsp;Master&nbsp;to&nbsp;&nbsp;set&nbsp;the&nbsp;next&nbsp;Song&nbsp;into&nbsp;the&nbsp;queue:<br>
+1)&nbsp;Receives&nbsp;POST&nbsp;request&nbsp;and&nbsp;gets&nbsp;json&nbsp;data:&nbsp;songId&nbsp;and&nbsp;partyId<br>
+2)&nbsp;Check&nbsp;if&nbsp;party&nbsp;exists<br>
+3)&nbsp;Delete&nbsp;the&nbsp;song&nbsp;from&nbsp;the&nbsp;queue&nbsp;and&nbsp;using&nbsp;insertNext()&nbsp;set&nbsp;next&nbsp;track<br>
+4)&nbsp;If&nbsp;checks&nbsp;and&nbsp;operations&nbsp;are&nbsp;failed&nbsp;or&nbsp;passed&nbsp;corresponding&nbsp;messages&nbsp;are&nbsp;sent</tt></dd></dl>
+ <dl><dt><a name="-skipSong"><strong>skipSong</strong></a>()</dt><dd><tt>Required&nbsp;body&nbsp;in&nbsp;JSON<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"partyId":&nbsp;"21324",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"userId":&nbsp;"3781"<br>
+}<br>
+Method&nbsp;<a href="#-skipSong">skipSong</a>()&nbsp;allows&nbsp;to&nbsp;skip&nbsp;the&nbsp;Song:<br>
+1)&nbsp;Receives&nbsp;POST&nbsp;request&nbsp;and&nbsp;gets&nbsp;json&nbsp;data:&nbsp;userId&nbsp;and&nbsp;partyId<br>
+2)&nbsp;Check&nbsp;if&nbsp;party&nbsp;exists<br>
+3)&nbsp;Use&nbsp;method&nbsp;next_track()&nbsp;to&nbsp;set&nbsp;next&nbsp;track<br>
+4)&nbsp;If&nbsp;checks&nbsp;and&nbsp;operations&nbsp;are&nbsp;failed&nbsp;or&nbsp;passed&nbsp;corresponding&nbsp;messages&nbsp;are&nbsp;sent</tt></dd></dl>
+ <dl><dt><a name="-updateToken"><strong>updateToken</strong></a>()</dt><dd><tt>Required&nbsp;body&nbsp;in&nbsp;JSON<br>
+{<br>
+&nbsp;&nbsp;&nbsp;"partyId":&nbsp;"21324",<br>
+&nbsp;&nbsp;&nbsp;"authToken":&nbsp;"3781"<br>
+}<br>
+Method&nbsp;<a href="#-updateToken">updateToken</a>()&nbsp;allows&nbsp;to&nbsp;update&nbsp;authKey:<br>
+1)&nbsp;Receives&nbsp;POST&nbsp;request&nbsp;and&nbsp;gets&nbsp;json&nbsp;data:&nbsp;authToken&nbsp;and&nbsp;partyId<br>
+2)&nbsp;Check&nbsp;if&nbsp;party&nbsp;exists<br>
+3)&nbsp;If&nbsp;checks&nbsp;are&nbsp;failed&nbsp;or&nbsp;passed&nbsp;corresponding&nbsp;messages&nbsp;are&nbsp;sent</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>app</strong> = &lt;Flask 'server'&gt;<br>
+<strong>myDb</strong> = &lt;database.Database object&gt;<br>
+<strong>parties</strong> = {}<br>
+<strong>request</strong> = &lt;LocalProxy unbound&gt;</td></tr></table>
+</body></html>
